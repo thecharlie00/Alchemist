@@ -40,6 +40,12 @@ public class DBManager : MonoBehaviour
     public List<_PotionTypes> potionTypes = new List<_PotionTypes>();
     public List<_Potion> potions = new List<_Potion>();
 
+
+
+    public int potionAmount;
+    public int ingredientsAmount;
+    public int potionTypesAmount;
+
     private void Awake()
     {
         if (_DB_MANAGER != null && _DB_MANAGER != this)
@@ -58,6 +64,11 @@ public class DBManager : MonoBehaviour
         PotionTypes();
         Potion();
         Ingredients();
+        potionAmount = potions.Count;
+        ingredientsAmount = ingredients.Count;
+        potionTypesAmount = potionTypes.Count;
+
+
     }
 
 
