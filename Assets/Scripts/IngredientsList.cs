@@ -20,6 +20,8 @@ public class IngredientsList : MonoBehaviour
     void Start()
     {
         GenerateIngredients();
+        Debug.Log(DBManager._DB_MANAGER.ingredientsAmount);
+
     }
 
     // Update is called once per frame
