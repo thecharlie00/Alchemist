@@ -116,7 +116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d5d2c0d5ba96a419e1733dcddbfb29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredients: {fileID: 6685851752753398765, guid: dbfd1d6971e691a47a0b1419efd62d37, type: 3}
+  ingredients: {fileID: 611157167807425684, guid: eba7536e9488ba947ad8547c04cde0f1, type: 3}
   name: {fileID: 6814237652794626119, guid: 443446844d6a7db42883eb7cfee52c58, type: 3}
   description: {fileID: 7469052241798937050, guid: 4999ba4ce0065c04087af71b64a13a9a, type: 3}
   cost: {fileID: 8245268708686128334, guid: 59c3762e6cf324a4bb5d82bfe512fa2b, type: 3}
+  isInstantiated: 0

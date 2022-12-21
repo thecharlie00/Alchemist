@@ -6,16 +6,11 @@ using System.Collections.Generic;
 
 public class DBManager : MonoBehaviour
 {
+    #region DBConection
     IDbConnection dbConnection;
     public static DBManager _DB_MANAGER;
-
-    [System.Serializable]
-    public struct _PotionTypes
-    {
-        public int potion_type_id;
-        public string type;
-        public string icon_type;
-    }
+    #endregion
+    #region Ingredients
     [System.Serializable]
     public struct _Ingredients
     {
@@ -25,6 +20,10 @@ public class DBManager : MonoBehaviour
         public string icon;
         public string description;
     }
+    public List<_Ingredients> ingredients = new List<_Ingredients>();
+    public int ingredientsAmount;
+    #endregion
+    #region Potions
     [System.Serializable]
     public struct _Potion
     {
@@ -35,17 +34,31 @@ public class DBManager : MonoBehaviour
         public string description;
         public int id_potion_type;
     }
-
-    public List<_Ingredients> ingredients = new List<_Ingredients>();
-    public List<_PotionTypes> potionTypes = new List<_PotionTypes>();
     public List<_Potion> potions = new List<_Potion>();
-
-
-
     public int potionAmount;
-    public int ingredientsAmount;
+    #endregion
+    #region PotionTypes
+    [System.Serializable]
+    public struct _PotionTypes
+    {
+        public int potion_type_id;
+        public string type;
+        public string icon_type;
+    }
+    public List<_PotionTypes> potionTypes = new List<_PotionTypes>();
     public int potionTypesAmount;
-
+    #endregion
+    #region PotionsIngredients
+    [System.Serializable]
+    public struct potions_Ingredients
+    {
+        public int id_potion_ingredient;
+        public int quantity;
+        public int id_potion;
+        public int id_ingredient;
+    }
+    public List<potions_Ingredients> potionsIngredients = new List<potions_Ingredients>();
+    #endregion
     private void Awake()
     {
         if (_DB_MANAGER != null && _DB_MANAGER != this)
@@ -64,6 +77,7 @@ public class DBManager : MonoBehaviour
         PotionTypes();
         Potion();
         Ingredients();
+        PotionsIngredients();
         potionAmount = potions.Count;
         ingredientsAmount = ingredients.Count;
         potionTypesAmount = potionTypes.Count;
@@ -95,13 +109,13 @@ public class DBManager : MonoBehaviour
             _PotionTypes potionType = new _PotionTypes();
             int potionTypeId = dataReader.GetInt16(0);
             potionType.potion_type_id = potionTypeId;
-            Debug.Log(potionTypeId);
+            
             string typePotion = dataReader.GetString(1);
             potionType.type = typePotion;
-            Debug.Log(typePotion);
+           
             string icon = dataReader.GetString(2);
             potionType.icon_type = icon;
-            Debug.Log(icon);
+          
             potionTypes.Add(potionType);
 
         }
@@ -123,22 +137,22 @@ public class DBManager : MonoBehaviour
             _Potion potion = new _Potion();
             int idPotion = dataReader.GetInt16(0);
             potion.id_potion = idPotion;
-            Debug.Log(idPotion);
+           
             string _potion_ = dataReader.GetString(1);
             potion.potion = _potion_;
-            Debug.Log(_potion_);
+            
             float cost = dataReader.GetFloat(2);
             potion.cost = cost;
-            Debug.Log(cost);
+          
             string icon = dataReader.GetString(3);
             potion.icon = icon;
-            Debug.Log(icon);
+          
             string description = dataReader.GetString(4);
             potion.description = description;
-            Debug.Log(description);
+           
             int idPotionTypes = dataReader.GetInt16(5);
             potion.id_potion_type = idPotionTypes;
-            Debug.Log(idPotionTypes);
+           
             potions.Add(potion);
             
 
@@ -161,24 +175,57 @@ public class DBManager : MonoBehaviour
 
             int id_ingredient = dataReader.GetInt16(0);
             ingredient.id_ingredients = id_ingredient;
-            Debug.Log(dataReader.GetInt16(0));
+            
             string _ingredient = dataReader.GetString(1);
             ingredient.ingredients = _ingredient;
-            Debug.Log(dataReader.GetString(1));
+            
             float cost = dataReader.GetFloat(2);
             ingredient.cost = cost;
-            Debug.Log(dataReader.GetFloat(2));
+           
             string icon = dataReader.GetString(3);
             ingredient.icon = icon;
-            Debug.Log(dataReader.GetString(3));
+           
             string description = dataReader.GetString(4);
             ingredient.description = description;
-            Debug.Log(dataReader.GetString(4));
+          
 
             ingredients.Add(ingredient);
 
 
         }
+    }
+
+    void PotionsIngredients()
+    {
+        
+        string query = "SELECT * FROM potions_ingredients";
+
+        IDbCommand cmd = dbConnection.CreateCommand();
+        cmd.CommandText = query;
+
+        IDataReader dataReader = cmd.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            potions_Ingredients _potionsIngredients = new potions_Ingredients();
+
+            int id_potion_ingredient = dataReader.GetInt16(0);
+            _potionsIngredients.id_potion_ingredient = id_potion_ingredient;
+
+            int quantity = dataReader.GetInt16(1);
+            _potionsIngredients.quantity = quantity;
+
+            int id_potion = dataReader.GetInt16(2);
+            _potionsIngredients.id_potion = id_potion;
+
+            int id_ingredient = dataReader.GetInt16(3);
+            _potionsIngredients.id_ingredient = id_ingredient;
+
+
+            potionsIngredients.Add(_potionsIngredients);
+
+        }
+        Debug.Log("done");
     }
 
 }

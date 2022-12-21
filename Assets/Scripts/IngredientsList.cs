@@ -11,8 +11,8 @@ public class IngredientsList : MonoBehaviour
     public Text name;
     public Text description;
     public Text cost;
-
-
+    int index = -1;
+    public bool isInstantiated;
     private void Awake()
     {
         
@@ -20,29 +20,37 @@ public class IngredientsList : MonoBehaviour
     void Start()
     {
         GenerateIngredients();
-        Debug.Log(DBManager._DB_MANAGER.ingredientsAmount);
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+
+
+        
+
+
     }
     void GenerateIngredients()
     {
-        for(int i = 0; i < DBManager._DB_MANAGER.ingredientsAmount-1; i++)
-        {
 
+        for(int i = 0; i < DBManager._DB_MANAGER.ingredients.Count; i++)
+        {
             Instantiate(ingredients, this.transform);
+            
+            
+            name.text = DBManager._DB_MANAGER.ingredients[i].ingredients;
+            description.text = DBManager._DB_MANAGER.ingredients[i].description;
+            cost.text = DBManager._DB_MANAGER.ingredients[i].cost.ToString();
             name = ingredients.transform.GetChild(0).GetComponent<Text>();
             description = ingredients.transform.GetChild(1).GetComponent<Text>();
             cost = ingredients.transform.GetChild(2).GetComponent<Text>();
 
-            name.text = DBManager._DB_MANAGER.ingredients[i].ingredients;
-            description.text = DBManager._DB_MANAGER.ingredients[i].description;
-            cost.text = DBManager._DB_MANAGER.ingredients[i].cost.ToString();
-            Debug.Log(name);
         }
+
+
+
+
     }
 }
